@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Happy Father's Day – Page 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --gold:#c9a84c;--gold2:#e8c96a;--deep:#1a1005;
+    --cream:#fdf6e3;--brown:#6b3f1a;--rust:#b5541e;
+    --text:#2d1a05;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--deep);color:var(--cream);font-family:'Lato',sans-serif;overflow-x:hidden}
+
+  /* ── STARS ── */
+  canvas#stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:center;gap:32px;
+    padding:18px 24px;background:rgba(26,16,5,0.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(201,168,76,0.2)}
+  nav a{color:var(--gold);font-size:13px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+    text-decoration:none;transition:color 0.2s}
+  nav a:hover{color:var(--gold2)}
+
+  /* ── HERO ── */
+  .hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:100px 24px 60px}
+  .hero-photo{width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid var(--gold);box-shadow:0 12px 30px rgba(201,168,76,0.3);margin-bottom:24px;opacity:0;animation:fadeUp 1s 0.2s forwards;position:relative;z-index:2;}
+  .hero-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp 1s 0.3s forwards}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(54px,11vw,130px);font-weight:900;
+    line-height:0.9;letter-spacing:-0.01em;
+    background:linear-gradient(135deg,#e8c96a 0%,#c9a84c 40%,#fff3c4 60%,#c9a84c 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    opacity:0;animation:fadeUp 1s 0.6s forwards}
+  .hero-sub{font-size:clamp(16px,3vw,24px);font-weight:300;color:rgba(253,246,227,0.75);
+    margin-top:28px;line-height:1.6;max-width:560px;
+    opacity:0;animation:fadeUp 1s 0.9s forwards}
+  .hero-quote{margin-top:48px;font-family:'Playfair Display',serif;font-style:italic;
+    font-size:clamp(18px,3.5vw,28px);color:var(--gold2);max-width:680px;line-height:1.5;
+    opacity:0;animation:fadeUp 1s 1.2s forwards}
+  .hero-quote::before{content:'\201C';font-size:80px;line-height:0;vertical-align:-28px;
+    color:var(--gold);opacity:0.4;margin-right:6px}
+  .hero-quote::after{content:'\201D';font-size:80px;line-height:0;vertical-align:-28px;
+    color:var(--gold);opacity:0.4;margin-left:6px}
+
+  /* floating hearts */
+  .hearts{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  .heart{position:absolute;font-size:22px;opacity:0;animation:floatHeart linear infinite}
+  @keyframes floatHeart{
+    0%{transform:translateY(100vh) scale(0.8);opacity:0.6}
+    80%{opacity:0.3}
+    100%{transform:translateY(-10vh) scale(1.2);opacity:0}
+  }
+
+  /* CTA buttons */
+  .cta-row{display:flex;gap:16px;margin-top:52px;flex-wrap:wrap;justify-content:center;
+    opacity:0;animation:fadeUp 1s 1.5s forwards}
+  .btn{padding:15px 36px;border-radius:60px;font-size:14px;font-weight:700;letter-spacing:0.12em;
+    text-transform:uppercase;text-decoration:none;transition:all 0.3s;cursor:pointer;border:none}
+  .btn-gold{background:linear-gradient(135deg,#c9a84c,#e8c96a);color:var(--deep)}
+  .btn-gold:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(201,168,76,0.4)}
+  .btn-outline{background:transparent;border:2px solid var(--gold);color:var(--gold)}
+  .btn-outline:hover{background:var(--gold);color:var(--deep);transform:translateY(-3px)}
+
+  /* scroll hint */
+  .scroll-hint{margin-top:64px;display:flex;flex-direction:column;align-items:center;gap:8px;
+    opacity:0;animation:fadeUp 1s 2s forwards}
+  .scroll-hint span{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:rgba(201,168,76,0.6)}
+  .scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(201,168,76,0.6),transparent);animation:scrollPulse 2s ease-in-out infinite}
+  @keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:0.6}50%{transform:scaleY(1.3);opacity:1}}
+
+  /* ── WHY DAD SECTION ── */
+  .section{position:relative;z-index:1;padding:100px 24px}
+  .section-inner{max-width:1100px;margin:0 auto}
+  .section-label{font-size:11px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;
+    color:var(--gold);margin-bottom:16px}
+  .section-title{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,72px);font-weight:900;
+    line-height:1.05;color:var(--cream)}
+  .section-title em{font-style:italic;color:var(--gold2)}
+  .divider-gold{width:60px;height:3px;background:linear-gradient(90deg,var(--gold),transparent);margin:24px 0}
+  .section-body{font-size:18px;line-height:1.9;color:rgba(253,246,227,0.8);max-width:640px}
+
+  /* reason cards */
+  .reason-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:56px}
+  .reason-card{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.15);
+    border-radius:16px;padding:36px 28px;transition:all 0.3s;position:relative;overflow:hidden}
+  .reason-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(0);
+    transition:transform 0.4s;transform-origin:left}
+  .reason-card:hover::before{transform:scaleX(1)}
+  .reason-card:hover{background:rgba(201,168,76,0.1);transform:translateY(-4px);
+    box-shadow:0 20px 50px rgba(0,0,0,0.4)}
+  .reason-icon{font-size:44px;margin-bottom:18px;display:block}
+  .reason-card h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--gold2);margin-bottom:10px}
+  .reason-card p{font-size:15px;line-height:1.7;color:rgba(253,246,227,0.7)}
+
+  /* ── GOLDEN RIBBON ── */
+  .ribbon{position:relative;z-index:1;background:linear-gradient(135deg,#c9a84c,#8b6914,#c9a84c);
+    padding:60px 24px;text-align:center;overflow:hidden}
+  .ribbon::before,.ribbon::after{content:'✦';position:absolute;font-size:120px;
+    opacity:0.08;color:#fff;top:50%;transform:translateY(-50%)}
+  .ribbon::before{left:40px}
+  .ribbon::after{right:40px}
+  .ribbon blockquote{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,38px);
+    font-style:italic;color:var(--deep);font-weight:700;max-width:860px;margin:0 auto;line-height:1.5}
+  .ribbon cite{display:block;margin-top:16px;font-size:13px;font-weight:700;letter-spacing:0.2em;
+    text-transform:uppercase;font-style:normal;color:rgba(26,16,5,0.6)}
+
+  /* ── PAGE NAV ── */
+  .page-nav{position:relative;z-index:1;padding:80px 24px;text-align:center}
+  .page-nav p{font-size:13px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.6);margin-bottom:28px}
+  .page-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .page-link{padding:14px 28px;border-radius:10px;background:rgba(201,168,76,0.08);
+    border:1px solid rgba(201,168,76,0.25);color:var(--gold);font-weight:700;font-size:13px;
+    text-decoration:none;letter-spacing:0.08em;transition:all 0.3s}
+  .page-link:hover{background:var(--gold);color:var(--deep);transform:translateY(-2px)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+  .menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;position:absolute;right:24px;top:20px;z-index:101;}
+  .menu-toggle span{width:25px;height:2px;background:var(--gold);transition:all 0.3s ease;}
+  @media (max-width: 768px) {
+    .menu-toggle{display:flex;}
+    nav{justify-content:flex-start;padding:18px 24px;}
+    .nav-links{
+      position:fixed;top:0;right:-100%;flex-direction:column;justify-content:flex-start;align-items:center;
+      background:rgba(26,16,5,0.95);backdrop-filter:blur(10px);
+      width:250px;height:100vh;padding:80px 24px 40px;gap:32px;
+      border-left:1px solid rgba(201,168,76,0.2);
+      transition:right 0.3s ease;z-index:100;display:flex;
+    }
+    .nav-links.active{right:0;}
+    .menu-toggle.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .menu-toggle.active span:nth-child(2){opacity:0;}
+    .menu-toggle.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  }
+  @media (min-width: 769px) {
+    .nav-links{display:flex;gap:32px;}
+  }
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<nav>
+  <div class="nav-links" id="nav-links">
+    <a href="index.html">Home</a>
+    <a href="memories.html">Memories</a>
+    <a href="letter.html">My Letter</a>
+    <a href="wishes.html">Wishes</a>
+    <a href="gallery.html">Gallery</a>
+  </div>
+  <div class="menu-toggle" id="mobile-menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hearts" id="hearts"></div>
+  <img src="dad-photo.jpg" alt="Dad" class="hero-photo"/>
+  <p class="hero-eyebrow">✦ June 15, 2025 · Father's Day ✦</p>
+  <h1>HAPPY<br/>FATHER'S<br/>DAY</h1>
+  <p class="hero-sub">To the man who taught me everything I know — my strength, my guide, my superhero. Today is yours, Dad.</p>
+  <p class="hero-quote">A father is not defined by what he gives, but by who he becomes for the ones he loves.</p>
+  <div class="cta-row">
+    <a href="letter.html" class="btn btn-gold">Read My Letter to You</a>
+    <a href="memories.html" class="btn btn-outline">Our Memories</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll down</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label">Why You're My Hero</p>
+    <h2 class="section-title">The Reasons I Love<br/><em>You, Dad</em></h2>
+    <div class="divider-gold"></div>
+    <p class="section-body">Every single day, you show up. You work hard, you sacrifice, you love deeply and silently. Here are just a few of the countless reasons you mean the whole world to me.</p>
+    <div class="reason-grid">
+      <div class="reason-card">
+        <span class="reason-icon">🛡️</span>
+        <h3>My Protector</h3>
+        <p>From the very first day, you stood as a wall between me and every storm the world threw our way. You never let me face the dark alone.</p>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">🌟</span>
+        <h3>My First Teacher</h3>
+        <p>You taught me how to walk, how to think, how to be honest and how to be kind. Everything good in me started with a lesson from you.</p>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">💪</span>
+        <h3>My Strength</h3>
+        <p>On the days I felt weak and broken, one look at you reminded me what true strength looks like — quiet, consistent, and unconditional.</p>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">❤️</span>
+        <h3>My Greatest Love</h3>
+        <p>You never had to say "I love you" every minute — your love was in every sacrifice, every late night, every worry line on your forehead.</p>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">🏡</span>
+        <h3>My Safe Place</h3>
+        <p>No matter how far I go or how lost I feel, coming back to you always feels like coming home — warm, safe, and completely at peace.</p>
+      </div>
+      <div class="reason-card">
+        <span class="reason-icon">🌅</span>
+        <h3>My Inspiration</h3>
+        <p>Watching you rise every morning and face the day with dignity and grace inspires me more than you will ever know. You are my life's greatest role model.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ribbon">
+  <blockquote>
+    "A good father is one of the most unsung, unpraised, unnoticed, and yet one of the most valuable assets in our world."
+  </blockquote>
+  <cite>— KUMMITHA OBULESU</cite>
+</div>
+
+<div class="page-nav">
+  <p>Continue the journey</p>
+  <div class="page-links">
+    <a href="memories.html" class="page-link">📸 Our Memories →</a>
+    <a href="letter.html" class="page-link">✉️ My Letter to You →</a>
+    <a href="wishes.html" class="page-link">🎂 Father's day Wishes →</a>
+    <a href="gallery.html" class="page-link">🌸 Gallery of Love →</a>
+  </div>
+</div>
+
+<script>
+// Stars canvas
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let stars=[];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;stars=[];for(let i=0;i<200;i++){stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.5+0.3,o:Math.random(),s:Math.random()*0.008+0.002})}}
+function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.o+=s.s;if(s.o>1||s.o<0)s.s*=-1;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(255,243,196,${s.o})`;ctx.fill()});requestAnimationFrame(drawStars)}
+window.addEventListener('resize',resize);resize();drawStars();
+
+// Floating hearts
+const heartsEl=document.getElementById('hearts');
+const emojis=['❤️','💛','🧡','✨','💫','⭐'];
+for(let i=0;i<18;i++){
+  const h=document.createElement('span');
+  h.className='heart';
+  h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  h.style.left=Math.random()*100+'%';
+  h.style.animationDuration=(8+Math.random()*12)+'s';
+  h.style.animationDelay=(Math.random()*10)+'s';
+  h.style.fontSize=(14+Math.random()*18)+'px';
+  heartsEl.appendChild(h);
+}
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.getElementById('nav-links');
+    if(mobileMenu && navLinks){
+      mobileMenu.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+  });
+</script>
+</body>
+</html>
